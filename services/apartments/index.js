@@ -7,6 +7,7 @@ const getElement = require("./getElement");
 const getObject = require("./getObject");
 const authenticationMiddleware = require("../../middlewares/authentication");
 const validationMiddleware = require("../../middlewares/validation");
+const routeMiddleware = require("../../middlewares/route");
 
 router.post(
   "/",
@@ -23,7 +24,7 @@ router.delete(
   "/:id",
   authenticationMiddleware,
   validationMiddleware({ paramsSchema: deleteData.paramsSchema }),
-  deleteData.route
+  routeMiddleware(deleteData.route)
 );
 
 module.exports = router;
