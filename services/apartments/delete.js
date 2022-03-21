@@ -1,7 +1,6 @@
 const Joi = require("joi");
 const ApartmentsController = require("../../controllers/apartments");
 const ApiError = require("../../utils/apiError");
-const { getNextId } = require("../../utils/database");
 
 const paramsSchema = Joi.object({
   id: Joi.number().integer().min(1).required(),

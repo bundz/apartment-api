@@ -1,5 +1,6 @@
 const Joi = require("joi");
 const ApartmentsController = require("../../controllers/apartments");
+const ApiError = require("../../utils/apiError");
 
 const paramsSchema = Joi.object({
   id: Joi.number().integer().min(1).required(),
@@ -15,19 +16,19 @@ const apartmentSchema = Joi.object({
   isFurnished: Joi.boolean().required(),
 });
 
-const update = async (req, res) => {
-  const { error, value } = apartmentSchema.validate(req.body);
+const route = async (req, res) => {
+  /*const { error, value } = apartmentSchema.validate(req.body);
 
   if (error) {
-    return res.status(400).send(error);
-  }
+    throw ApiError.badRequest("Error in validate Schema", {});
+  }*/
 
   const userId = req.user.id;
 
   const apartment = await ApartmentsController.getApartment(req.params.id);
 
   if (apartment.userId != userId) {
-    return res.status(403).send({ message: "Forbidden" });
+    throw ApiError.badRequest("User doesn't own this apartment", {});
   }
 
   const { body } = req;
@@ -39,10 +40,10 @@ const update = async (req, res) => {
   );
 
   if (!result) {
-    return res.status(404).send({ message: "Apartment not found" });
+    throw ApiError.notFound("Apartment not found", {});
   }
 
   return res.status(200).send({ message: "Apartment updated" });
 };
 
-module.exports = update;
+module.exports = {route, apartmentSchema};

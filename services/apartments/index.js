@@ -18,7 +18,8 @@ router.post(
 
 router.get("/:id", getElement);
 router.get("/", getObject);
-router.patch("/:id", authenticationMiddleware, update);
+
+router.patch("/:id", authenticationMiddleware, validationMiddleware({ bodySchema: update.apartmentSchema }), routeMiddleware(update.route));
 
 router.delete(
   "/:id",
