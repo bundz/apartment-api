@@ -13,16 +13,11 @@ const listQuerySchema = Joi.object({
     searchAddress: Joi.string()
 });
 
-const getObject =  async (req, res) => {
-    const { error, value } = listQuerySchema.validate(req.params);
-
-    if (error) {
-        return res.status(400).send(error);
-    }
+const route =  async (req, res) => {
 
     const result = await ApartmentsController.getApartments(req.params);
 
     return res.status(200).send({ ElementsFound: result });
 };
 
-module.exports = getObject;
+module.exports = {route, listQuerySchema};

@@ -12,11 +12,6 @@ const bodySchema = Joi.object({
 });
 
 const route = async (req, res) => {
-  // const { error, value } = apartmentSchema.validate(req.body);
-
-  // if (error) {
-  //   return res.status(400).send(error);
-  // }
 
   const { body } = req;
   body.userId = req.user.id;

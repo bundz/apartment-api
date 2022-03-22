@@ -13,12 +13,27 @@ router.post(
   "/",
   authenticationMiddleware,
   validationMiddleware({ bodySchema: create.bodySchema }),
-  create.route
+  routeMiddleware(create.route)
 );
 
-router.get("/:id", getElement);
-router.get("/", getObject);
-router.patch("/:id", authenticationMiddleware, update);
+router.get(
+  "/:id",
+  validationMiddleware({paramsSchema: getElement.paramsSchema}),
+  routeMiddleware(getElement.route)
+);
+
+router.get(
+  "/", 
+  validationMiddleware({querySchema: getObject.listQuerySchema}),
+  routeMiddleware(getObject.route)
+);
+
+router.patch(
+  "/:id",
+  authenticationMiddleware,
+  validationMiddleware({paramsSchema: update.paramsSchema, bodySchema: update.bodySchema}),
+  routeMiddleware(update.route)
+);
 
 router.delete(
   "/:id",

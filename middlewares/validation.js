@@ -1,3 +1,6 @@
+const { query } = require("express");
+const ApiError = require("../utils/apiError");
+
 const validate = (schema, data) => {
   const { error, value } = schema.validate(data);
 
@@ -8,7 +11,7 @@ const validate = (schema, data) => {
   return value;
 };
 
-const validationMiddleware = ({ bodySchema, paramsSchema }) => {
+const validationMiddleware = ({ bodySchema, paramsSchema, querySchema }) => {
   return (req, res, next) => {
     try {
       if (bodySchema) {
@@ -19,9 +22,13 @@ const validationMiddleware = ({ bodySchema, paramsSchema }) => {
         req.params = validate(paramsSchema, req.params);
       }
 
+      if (querySchema) {
+        req.body = validate(querySchema, req.body);
+      }
+
       return next();
     } catch (error) {
-      return res.status(400).send(error);
+      throw ApiError.badRequest("Invalid Schema.", {});
     }
   };
 };

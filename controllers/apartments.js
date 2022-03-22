@@ -17,7 +17,7 @@ class ApartmentsController {
     return result;
   }
 
-  static async deleteApartment(apartment, user) {
+  static async deleteApartment(apartment) {
     await ApartmentsModel.delete(apartment);
     return;
   }
