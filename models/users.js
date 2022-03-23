@@ -18,6 +18,21 @@ class UsersModel {
 
     return null;
   }
+
+  static async getUserApartments(id) {
+    const apartments = await Database.getFileData("apartments");
+    
+    const keys = Object.keys(apartments);
+    let apartmentsResults = [];
+    
+    keys.forEach((key) => {
+        if (apartments[key].userId === id) {
+          apartmentsResults.push(apartments[key]);
+        }
+    });
+
+    return apartmentsResults;
+  }
 }
 
 module.exports = UsersModel;

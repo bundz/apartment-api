@@ -2,7 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const apartmentsRouter = require("./services/apartments");
 const authRouter = require("./services/auth");
-const errorMiddleware = require("./middlewares/error");
+const usersRouter = require("./services/users");
+//const errorMiddleware = require("./middlewares/error");
 const server = express();
 
 server.use(bodyParser.json());
@@ -15,6 +16,7 @@ server.listen(3000, () => {
 
 server.use("/apartments", apartmentsRouter);
 server.use("/auth", authRouter);
+server.use("/users", usersRouter);
 
 server.use((err, req, res, next) => {
   console.log(err);
